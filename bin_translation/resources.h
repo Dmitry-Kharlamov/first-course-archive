@@ -1,0 +1,126 @@
+#ifndef RESOURCES_H_INCLUDED
+#define RESOURCES_H_INCLUDED
+
+const int MAX_CODE_SEG = 4096;
+const int MAX_DATA_SEG = 1024;
+
+
+struct translated_t
+{
+    char* code;
+    char* data;
+    char* source;
+
+    int* addrconv;
+
+    int counter;
+
+};
+
+struct jmp_t
+{
+    int   offset;
+    char* opcode;
+};
+
+enum SOURCE_COMMANDS
+{
+    BEGIN   =  0,
+    PUSH    =  1,
+    POP     =  2,
+    OK      =  3,
+    DUMP    =  4,
+    ADD     =  5,
+    SUB     =  6,
+    MUL     =  7,
+    DIV     =  8,
+    JA      = 12,
+    JAE     = 13,
+    JB      = 14,
+    JBE     = 15,
+    JE      = 16,
+    JNE     = 17,
+    JMP     = 18,
+    OUT_    = 19,
+    MOV     = 20,
+    INC     = 21,
+    DEC     = 22,
+    CALL    = 23,
+    RET     = 24,
+    END     = 25
+
+};
+
+enum CMD_MODES
+{
+    NUM     = 100,
+    NOARG   = 105,
+    VAR     = 107,
+    REG     = 110,
+    AX      = 111,
+    BX      = 112,
+    CX      = 113,
+    DX      = 114
+};
+
+//=======================Num of reg in x86===================================================
+enum TR_REGS
+{
+    TR_EAX  = 0,
+    TR_ECX  = 1,
+    TR_EDX  = 2,
+    TR_EBX  = 3,
+    TR_ESP  = 4,
+    TR_EBP  = 5,
+    TR_ESI  = 6,
+    TR_EDI  = 7,
+};
+
+const int reg_conv[] = {0 , 3 , 1, 2};
+
+//====================Translated opcodes in x86===================================================
+
+//------------------1byte-opcodes---------------------
+const char TR_POP      =  0x58;
+const char TR_INC_REG  =  0x40;
+const char TR_DEC_REG  =  0x48;
+const char TR_PUSH_REG =  0x50;
+const char TR_RETN     =  0xC3;
+const char TR_BEGIN    =  0x90;
+
+//------------------n_bytes-opcode--------------------
+const char TR_PUSH_VAR[] = {0xFF, 0x35, 0x00, 0x00, 0x00, 0x00};
+const char TR_PUSH_CON[] = {0x68, 0x00, 0x00, 0x00, 0x00};
+
+const char TR_MOV_RR[]  = {0x8B, 0x00};
+const char TR_MOV_RV[]  = {0x8B, 0x05, 0x00, 0x00, 0x00, 0x00};
+const char TR_MOV_RC[]  = {0xB8, 0x00, 0x00, 0x00, 0x00};
+
+const char TR_MOV_VR[]  = {0x89, 0x05, 0x00, 0x00, 0x00, 0x00};
+const char TR_MOV_VC[]  = {0xC7, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+const char TR_ADD[]     = {0x5F, 0x5E, 0x03, 0xF7, 0x56};
+const char TR_SUB[]     = {0x5F, 0x5E, 0x2B, 0xF7, 0x56};
+const char TR_MUL[]     = {0x5F, 0x5E, 0x0F, 0xAF, 0xF7, 0x56};
+const char TR_DIV[]     = {0x5C, 0x33, 0xFF, 0x87, 0xD7, 0x5E, 0x96, 0xF7, 0xFD, 0x50, 0x96, 0x87, 0xD7};
+
+const char TR_INC_STK[] = {0x5F, 0x47, 0x57};
+const char TR_DEC_STK[] = {0x5F, 0x4F, 0x57};
+
+const char TR_OUT_[]    = { 0x68, 0x00, 0x00, 0x00, 0x00,
+                            0xc7, 0xc7, 0x00, 0x00, 0x00, 0x00,
+                            0xFF, 0xD7, 0x5F };
+const char TR_CALL[]    = {0xE8, 0x00, 0x00, 0x00, 0x00};
+const char TR_JMP[]     = {0xE9, 0x00, 0x00, 0x00, 0x00};
+
+const char TR_JE[]      = {0x5F, 0x5E, 0x3B, 0xFE, 0x0F, 0x84, 0x00, 0x00, 0x00, 0x00};
+const char TR_JNE[]     = {0x5F, 0x5E, 0x3B, 0xFE, 0x0F, 0x85, 0x00, 0x00, 0x00, 0x00};
+const char TR_JB[]      = {0x5F, 0x5E, 0x3B, 0xFE, 0x0F, 0x82, 0x00, 0x00, 0x00, 0x00};
+const char TR_JBE[]     = {0x5F, 0x5E, 0x3B, 0xFE, 0x0F, 0x86, 0x00, 0x00, 0x00, 0x00};
+const char TR_JA[]      = {0x5F, 0x5E, 0x3B, 0xFE, 0x0F, 0x87, 0x00, 0x00, 0x00, 0x00};
+const char TR_JAE[]     = {0x5F, 0x5E, 0x3B, 0xFE, 0x0F, 0x83, 0x00, 0x00, 0x00, 0x00};
+
+
+
+
+#endif // RESOURCES_H_INCLUDED

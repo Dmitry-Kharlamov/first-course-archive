@@ -1,0 +1,7 @@
+push 50
+out
+push 5
+out
+push 10
+out
+end

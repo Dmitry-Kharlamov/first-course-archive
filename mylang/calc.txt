@@ -1,0 +1,9 @@
+push 3
+pop dx
+mov x, dx
+push 5
+pop dx
+mov k, dx
+push k
+out
+end

@@ -1,0 +1,26 @@
+push 1
+pop dx
+mov x, dx
+push 5
+pop dx
+mov k, dx
+if0:
+push k
+push 0
+je if1
+push x
+push k
+mul
+pop dx
+mov x, dx
+push k
+push 1
+sub
+pop dx
+mov k, dx
+jmp if0
+if1:
+push x
+out
+pop dx
+end
